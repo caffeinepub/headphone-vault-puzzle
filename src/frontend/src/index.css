@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Satoshi";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/assets/fonts/Satoshi.woff2") format("woff2");
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    /* Dark vault theme - deep teal-black */
+    --background: 0.12 0.02 196;
+    --foreground: 0.94 0.01 195;
+    --card: 0.16 0.025 196;
+    --card-foreground: 0.94 0.01 195;
+    --popover: 0.16 0.025 196;
+    --popover-foreground: 0.94 0.01 195;
+    /* Teal accent */
+    --primary: 0.65 0.08 192;
+    --primary-foreground: 0.12 0.02 196;
+    /* Brass/gold secondary */
+    --secondary: 0.69 0.11 73;
+    --secondary-foreground: 0.12 0.02 196;
+    --muted: 0.18 0.02 196;
+    --muted-foreground: 0.73 0.02 195;
+    --accent: 0.78 0.09 192;
+    --accent-foreground: 0.12 0.02 196;
+    --destructive: 0.62 0.22 27;
+    --destructive-foreground: 0.94 0.01 195;
+    --border: 0.25 0.025 196;
+    --input: 0.22 0.025 196;
+    --ring: 0.65 0.08 192;
+    --chart-1: 0.65 0.08 192;
+    --chart-2: 0.69 0.11 73;
+    --chart-3: 0.62 0.22 27;
+    --chart-4: 0.78 0.09 192;
+    --chart-5: 0.73 0.02 195;
+    --sidebar: 0.14 0.02 196;
+    --sidebar-foreground: 0.94 0.01 195;
+    --sidebar-primary: 0.65 0.08 192;
+    --sidebar-primary-foreground: 0.12 0.02 196;
+    --sidebar-accent: 0.18 0.02 196;
+    --sidebar-accent-foreground: 0.94 0.01 195;
+    --sidebar-border: 0.25 0.025 196;
+    --sidebar-ring: 0.65 0.08 192;
+
+    /* Vault custom vars */
+    --teal: oklch(0.65 0.08 192);
+    --teal-bright: oklch(0.78 0.09 192);
+    --brass: oklch(0.69 0.11 73);
+    --brass-light: oklch(0.78 0.1 75);
+    --vault-bg: oklch(0.12 0.02 196);
+    --vault-steel: oklch(0.22 0.015 220);
+    --vault-steel-light: oklch(0.32 0.015 220);
+    --off-white: oklch(0.94 0.01 195);
+    --muted-text: oklch(0.73 0.02 195);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Satoshi", "General Sans", system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* === Particles === */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(var(--drift, 20px));
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: fixed;
+  border-radius: 50%;
+  background: var(--teal-bright);
+  pointer-events: none;
+  animation: float-up var(--duration, 8s) var(--delay, 0s) linear infinite;
+}
+
+/* === Vault dial idle spin === */
+@keyframes dial-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dial-fast-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1080deg);
+  }
+}
+
+/* === Locking bars === */
+@keyframes bar-retract {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes bar-extend {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* === Hint pulse === */
+@keyframes hint-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* === Interior text glow pulse === */
+@keyframes glow-pulse {
+  0%,
+  100% {
+    text-shadow: 0 0 20px oklch(0.78 0.09 192 / 0.8), 0 0 40px
+      oklch(0.78 0.09 192 / 0.4), 0 0 80px oklch(0.78 0.09 192 / 0.2);
+  }
+  50% {
+    text-shadow: 0 0 30px oklch(0.78 0.09 192 / 1), 0 0 60px
+      oklch(0.78 0.09 192 / 0.7), 0 0 120px oklch(0.78 0.09 192 / 0.4);
+  }
+}
+
+@keyframes interior-particle {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px) translateX(var(--drift, 10px));
+    opacity: 0;
+  }
+}
+
+/* === Vault rune glow === */
+@keyframes rune-flicker {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  25% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  75% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes vignette-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.vault-door-container {
+  perspective: 1200px;
+  perspective-origin: center center;
+}
+
+.vault-door {
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vault-door.open {
+  transform: rotateY(-75deg);
+}
+
+.vault-door.closed {
+  transform: rotateY(0deg);
+}
+
+.dial-idle {
+  animation: dial-spin 10s linear infinite;
+}
+
+.dial-fast {
+  animation: dial-fast-spin 0.8s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+.lock-bar {
+  transform-origin: center;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+.lock-bar.retracted {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.lock-bar.extended {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.interior-content {
+  transition: opacity 0.4s ease-in-out;
+}
+
+.interior-content.visible {
+  opacity: 1;
+}
+
+.interior-content.hidden {
+  opacity: 0;
+}
+
+.glow-text {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.hint-pulse {
+  animation: hint-pulse 2s ease-in-out infinite;
+}
+
+.rune-flicker {
+  animation: rune-flicker var(--rune-duration, 3s) var(--rune-delay, 0s)
+    ease-in-out infinite;
+}
